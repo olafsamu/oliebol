@@ -148,6 +148,8 @@ form { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); d
 .result { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; }
 .result textarea { width: 100%; min-height: 220px; padding: 12px; border: 1.5px solid var(--field-line); border-radius: 6px; background: var(--bg); color: var(--fg); font: 400 0.88rem/1.5 ui-monospace, "SF Mono", Menlo, Consolas, monospace; resize: vertical; }
 .result .status { color: var(--muted); font-size: 0.9rem; min-height: 1.4em; }
+.pay { display: flex; flex-direction: column; gap: 10px; padding-top: 16px; border-top: 1px solid var(--line); }
+.card .btn[href] { text-decoration: none; }
 
 footer { border-top: 1px solid var(--line); padding-block: 28px; color: var(--muted); font-size: 0.9rem; }
 
@@ -218,7 +220,7 @@ footer { border-top: 1px solid var(--line); padding-block: 28px; color: var(--mu
   <section class="wrap order" id="order" aria-labelledby="order-h">
     <div class="order-head">
       <h2 id="order-h">Build your order</h2>
-      <p>We deliver in Leiden and Voorschoten. Powdered sugar comes with every order. Prices are per piece unless a box is named.</p>
+      <p>We deliver in Leiden and Voorschoten. You pay with Tikkie. Powdered sugar comes with every order. Prices are per piece unless a box is named.</p>
     </div>
     <div class="order-grid">
       <ul class="menu" id="menu" aria-label="Menu"></ul>
@@ -267,6 +269,11 @@ footer { border-top: 1px solid var(--line); padding-block: 28px; color: var(--mu
           <textarea id="resultText" readonly aria-label="Order request text"></textarea>
           <button class="btn" type="button" id="copyBtn">Copy order</button>
           <p class="status" id="copyStatus" aria-live="polite"></p>
+          <div class="pay">
+            <h3>Pay with Tikkie</h3>
+            <p class="note" id="payNote" style="margin:0"></p>
+            <a class="btn" id="payLink" href="#" target="_blank" rel="noopener" hidden>Open Tikkie</a>
+          </div>
         </div>
       </div>
     </div>
@@ -281,6 +288,8 @@ footer { border-top: 1px solid var(--line); padding-block: 28px; color: var(--mu
 (function () {
   // Phone, email or WhatsApp number where customers send their order request. Shown after the order summary when set.
   var SHOP_CONTACT = "";
+  // Your own Tikkie link, for example "https://tikkie.me/pay/...". Leave empty to send each customer a Tikkie after you confirm the order.
+  var TIKKIE_URL = "";
   var DELIVERY_FEE = 3.95, FREE_FROM = 25;
   var ITEMS = [
     { id: "plain", name: "Oliebol, plain", desc: "The classic. Crisp outside, soft inside.", price: 1.30, pieces: 1 },
@@ -425,12 +434,22 @@ footer { border-top: 1px solid var(--line); padding-block: 28px; color: var(--mu
     lines.push("Address: " + document.getElementById("address").value.trim() + ", " + document.getElementById("postcode").value.trim() + " " + document.getElementById("city").value);
     lines.push("Delivery: " + dayText + ", " + document.getElementById("slot").value);
     var note = document.getElementById("notes").value.trim();
+    lines.push("Payment: Tikkie, " + eur(t.total));
     if (note) lines.push("Note: " + note);
     resultText.value = lines.join("\n");
     resultNote.textContent = SHOP_CONTACT
       ? "This page does not send orders by itself. Copy the text below and send it to " + SHOP_CONTACT + " to confirm."
       : "This page does not send orders by itself yet. Copy the text below and send it to the shop to confirm.";
     copyStatus.textContent = "";
+    var payNote = document.getElementById("payNote"), payLink = document.getElementById("payLink");
+    if (TIKKIE_URL) {
+      payNote.textContent = "Open Tikkie, enter " + eur(t.total) + " and put your name in the description.";
+      payLink.href = TIKKIE_URL;
+      payLink.hidden = false;
+    } else {
+      payNote.textContent = "Once we confirm your day and time slot, we send you a Tikkie for " + eur(t.total) + ".";
+      payLink.hidden = true;
+    }
     result.hidden = false;
     result.scrollIntoView({ block: "nearest" });
   });
