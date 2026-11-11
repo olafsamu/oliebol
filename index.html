@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Freshly fried oliebollen delivered to your door in Leiden and Voorschoten.">
+<style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Oliebol Delivery</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700&display=swap">
+<style>
+/* Layout: blue fairground-stall hero over a plain order desk. Menu list on the left, a single order card on the right. */
+:root {
+  --bg: #F4F6FA;
+  --surface: #FFFFFF;
+  --fg: #14214A;
+  --muted: #4C5A82;
+  --line: #D5DBEA;
+  --field-line: #8D9AC0;
+  --blue: #1D3F8F;
+  --gold: #F2B01E;
+  --gold-ink: #3E2408;
+  --hero-bg: #1D3F8F;
+  --hero-fg: #FFFFFF;
+  --hero-muted: #D3DCF5;
+  --hero-line: rgba(255, 255, 255, 0.28);
+  --danger: #B3261E;
+  --font-display: "Bowlby One", "Arial Black", system-ui, sans-serif;
+  --font-body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0D1730;
+    --surface: #15224A;
+    --fg: #EEF2FB;
+    --muted: #AAB7DA;
+    --line: #2A3B6E;
+    --field-line: #5A6EA6;
+    --blue: #93B1F8;
+    --hero-bg: #1A3580;
+    --danger: #FF8A80;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0D1730;
+  --surface: #15224A;
+  --fg: #EEF2FB;
+  --muted: #AAB7DA;
+  --line: #2A3B6E;
+  --field-line: #5A6EA6;
+  --blue: #93B1F8;
+  --hero-bg: #1A3580;
+  --danger: #FF8A80;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+}
+h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: 1.1; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+ul { list-style: none; margin: 0; padding: 0; }
+a { color: inherit; }
+.wrap {
+  max-width: 1120px;
+  margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+.hero :focus-visible { outline-color: var(--gold); }
+
+/* Hero */
+.hero { background: var(--hero-bg); color: var(--hero-fg); }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 16px; }
+.brand { font-family: var(--font-display); font-size: 1.15rem; text-decoration: none; }
+.top a.nav { font-weight: 700; font-size: 0.95rem; }
+.hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 32px; align-items: center; padding-block: 24px 48px; }
+.hero-text { min-width: 0; display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
+.eyebrow { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+.hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); }
+.hero .lead { color: var(--hero-muted); font-size: 1.1rem; max-width: 34em; }
+.btn {
+  display: inline-block; border: 0; border-radius: 6px; padding: 14px 22px;
+  background: var(--gold); color: var(--gold-ink); font: 700 1rem var(--font-body);
+  text-decoration: none; cursor: pointer;
+}
+.btn:hover { filter: brightness(1.06); }
+.facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; width: 100%; padding-top: 20px; border-top: 1px solid var(--hero-line); }
+.facts li { font-size: 0.92rem; color: var(--hero-muted); min-width: 0; }
+.facts strong { display: block; color: var(--hero-fg); font-size: 1rem; }
+.hero-art { min-width: 0; justify-self: center; width: 100%; max-width: 420px; }
+.hero-art svg { display: block; width: 100%; height: auto; }
+
+/* How it works */
+.how { padding-block: 56px 8px; }
+.how h2, .order-head h2 { font-size: clamp(1.6rem, 4vw, 2.4rem); }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 24px; }
+.steps li { min-width: 0; display: flex; flex-direction: column; gap: 6px; padding-top: 14px; border-top: 3px solid var(--gold); }
+.steps .n { font-family: var(--font-display); font-size: 1.5rem; color: var(--blue); }
+.steps h3 { font-family: var(--font-body); font-weight: 700; font-size: 1.1rem; }
+.steps p { color: var(--muted); }
+
+/* Order */
+.order { padding-block: 48px 72px; scroll-margin-top: 8px; }
+.order-head p { color: var(--muted); margin-top: 8px; max-width: 40em; }
+.order-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; margin-top: 28px; align-items: start; }
+.menu { min-width: 0; border-top: 1px solid var(--line); }
+.item { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; padding-block: 18px; border-bottom: 1px solid var(--line); }
+.item .info { min-width: 0; }
+.item .name { font-weight: 700; font-size: 1.05rem; }
+.item .desc { color: var(--muted); font-size: 0.95rem; margin-top: 2px; }
+.buy { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.price { font-weight: 700; font-variant-numeric: tabular-nums; }
+.stepper { display: inline-flex; align-items: center; border: 1.5px solid var(--blue); border-radius: 6px; }
+.stepper button { width: 40px; height: 40px; border: 0; background: transparent; color: var(--blue); font: 500 1.3rem var(--font-body); cursor: pointer; }
+.stepper button:hover { background: var(--line); }
+.stepper .qty { min-width: 34px; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.card { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 22px; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); }
+.card h3 { font-family: var(--font-body); font-weight: 700; font-size: 1.15rem; }
+.lines { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+.lines li { display: flex; justify-content: space-between; gap: 12px; font-size: 0.95rem; }
+.lines li span:last-child { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.empty { color: var(--muted); font-size: 0.95rem; margin-top: 12px; }
+.totals { margin: 14px 0 0; padding-top: 12px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+.totals dt, .totals dd { margin: 0; }
+.totals dd { text-align: right; }
+.totals .grand { font-weight: 700; font-size: 1.1rem; padding-top: 6px; }
+.note { color: var(--muted); font-size: 0.85rem; margin-top: 8px; }
+
+form { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 14px; }
+.field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.field label { font-weight: 700; font-size: 0.9rem; }
+.field input, .field select, .field textarea {
+  width: 100%; min-width: 0; padding: 11px 12px; border: 1.5px solid var(--field-line); border-radius: 6px;
+  background: var(--bg); color: var(--fg); font: 400 1rem var(--font-body);
+}
+.field textarea { resize: vertical; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.msg { color: var(--danger); font-size: 0.92rem; font-weight: 500; }
+.card .btn { width: 100%; text-align: center; }
+.result { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; }
+.result textarea { width: 100%; min-height: 220px; padding: 12px; border: 1.5px solid var(--field-line); border-radius: 6px; background: var(--bg); color: var(--fg); font: 400 0.88rem/1.5 ui-monospace, "SF Mono", Menlo, Consolas, monospace; resize: vertical; }
+.result .status { color: var(--muted); font-size: 0.9rem; min-height: 1.4em; }
+
+footer { border-top: 1px solid var(--line); padding-block: 28px; color: var(--muted); font-size: 0.9rem; }
+
+@media (max-width: 860px) {
+  .order-grid { grid-template-columns: 1fr; }
+  .card { position: static; }
+}
+@media (max-width: 760px) {
+  .hero-grid { grid-template-columns: 1fr; padding-bottom: 36px; }
+  .hero-art { max-width: 280px; }
+  .steps { grid-template-columns: 1fr; gap: 20px; }
+  .facts { grid-template-columns: 1fr; gap: 10px; }
+}
+@media (max-width: 440px) {
+  .row2 { grid-template-columns: 1fr; }
+  .card { padding: 18px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap top">
+    <a class="brand" href="#top" id="top">Oliebol Delivery</a>
+    <a class="nav" href="#order">Order</a>
+  </div>
+  <div class="wrap hero-grid">
+    <div class="hero-text">
+      <span class="eyebrow">Delivering in Leiden and Voorschoten</span>
+      <h1>Hot oliebollen, delivered to your door.</h1>
+      <p class="lead">Oliebollen are the Dutch way to end the year. Pick a day and a time slot, and we fry them fresh and bring them over with powdered sugar on the side.</p>
+      <a class="btn" href="#order">Start your order</a>
+      <ul class="facts">
+        <li><strong>Fried to order</strong>Never held under a lamp.</li>
+        <li><strong>Poedersuiker included</strong>Dust them yourself, as tradition demands.</li>
+        <li><strong>€3.95 delivery</strong>Free on orders from €25.</li>
+      </ul>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" role="img">
+        <defs>
+          <radialGradient id="fry" gradientUnits="userSpaceOnUse" cx="170" cy="155" r="230">
+            <stop offset="0" stop-color="#E9A93F"/>
+            <stop offset="0.55" stop-color="#B96A17"/>
+            <stop offset="1" stop-color="#7A3E0C"/>
+          </radialGradient>
+        </defs>
+        <ellipse cx="200" cy="345" rx="150" ry="22" fill="#000000" fill-opacity="0.22"/>
+        <g id="bumps" fill="url(#fry)"></g>
+        <circle cx="200" cy="195" r="140" fill="url(#fry)"/>
+        <ellipse cx="160" cy="130" rx="70" ry="38" fill="#FFFFFF" fill-opacity="0.12" transform="rotate(-25 160 130)"/>
+        <g id="sugar" fill="#FFF8E6"></g>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="wrap how" aria-labelledby="how-h">
+    <h2 id="how-h">How it works</h2>
+    <ol class="steps" style="list-style:none;margin:24px 0 0;padding:0">
+      <li><span class="n">1</span><h3>Choose your oliebollen</h3><p>Plain, with raisins, apple beignets or a box of twelve. Add as many as you like.</p></li>
+      <li><span class="n">2</span><h3>Pick a day and time slot</h3><p>Order for tomorrow or any day after. Slots run in two-hour windows.</p></li>
+      <li><span class="n">3</span><h3>We fry and bring them over</h3><p>Your oliebollen go in the fryer on the day, then straight to your door.</p></li>
+    </ol>
+  </section>
+
+  <section class="wrap order" id="order" aria-labelledby="order-h">
+    <div class="order-head">
+      <h2 id="order-h">Build your order</h2>
+      <p>We deliver in Leiden and Voorschoten. Powdered sugar comes with every order. Prices are per piece unless a box is named.</p>
+    </div>
+    <div class="order-grid">
+      <ul class="menu" id="menu" aria-label="Menu"></ul>
+
+      <div class="card">
+        <h3>Your order</h3>
+        <div id="summary"></div>
+
+        <form id="orderForm" novalidate>
+          <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="phone">Phone number</label><input id="phone" name="phone" type="tel" autocomplete="tel" required></div>
+          <div class="field"><label for="address">Street and house number</label><input id="address" name="address" type="text" autocomplete="street-address" required></div>
+          <div class="row2">
+            <div class="field"><label for="postcode">Postcode</label><input id="postcode" name="postcode" type="text" autocomplete="postal-code" placeholder="2311 AB" required></div>
+            <div class="field">
+              <label for="city">Town</label>
+              <select id="city" name="city" required>
+                <option value="">Choose</option>
+                <option>Leiden</option>
+                <option>Voorschoten</option>
+              </select>
+            </div>
+          </div>
+          <div class="row2">
+            <div class="field"><label for="date">Delivery day</label><input id="date" name="date" type="date" required></div>
+            <div class="field">
+              <label for="slot">Time slot</label>
+              <select id="slot" name="slot" required>
+                <option value="">Choose</option>
+                <option>10:00 to 12:00</option>
+                <option>12:00 to 14:00</option>
+                <option>14:00 to 16:00</option>
+                <option>16:00 to 18:00</option>
+                <option>18:00 to 20:00</option>
+              </select>
+            </div>
+          </div>
+          <div class="field"><label for="notes">Note for the courier</label><textarea id="notes" name="notes" rows="2" placeholder="Ring twice, leave at the neighbours, and so on"></textarea></div>
+          <p class="msg" id="formMsg" role="alert" hidden></p>
+          <button class="btn" type="submit">Review order</button>
+        </form>
+
+        <div class="result" id="result" hidden>
+          <h3>Order request</h3>
+          <p class="note" style="margin:0" id="resultNote"></p>
+          <textarea id="resultText" readonly aria-label="Order request text"></textarea>
+          <button class="btn" type="button" id="copyBtn">Copy order</button>
+          <p class="status" id="copyStatus" aria-live="polite"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Oliebol Delivery. Delivering oliebollen in Leiden and Voorschoten. Slots fill up around New Year's Eve.</div>
+</footer>
+
+<script>
+(function () {
+  // Phone, email or WhatsApp number where customers send their order request. Shown after the order summary when set.
+  var SHOP_CONTACT = "";
+  var DELIVERY_FEE = 3.95, FREE_FROM = 25;
+  var ITEMS = [
+    { id: "plain", name: "Oliebol, plain", desc: "The classic. Crisp outside, soft inside.", price: 1.30, pieces: 1 },
+    { id: "raisin", name: "Oliebol met rozijnen", desc: "Studded with raisins. The one most people mean by oliebol.", price: 1.45, pieces: 1 },
+    { id: "apple", name: "Appelbeignet", desc: "A ring of apple in batter, fried golden.", price: 1.90, pieces: 1 },
+    { id: "box", name: "Box of 12", desc: "Six plain and six with raisins.", price: 15.90, pieces: 12 },
+    { id: "sugar", name: "Extra poedersuiker", desc: "A 100 g bag for dusting at home.", price: 0.80, pieces: 0 }
+  ];
+  var qty = {};
+  ITEMS.forEach(function (i) { qty[i.id] = 0; });
+  var eur = function (n) { return "€" + n.toFixed(2); };
+
+  /* Hero illustration: bumps and powdered sugar, seeded so it looks the same on every load */
+  function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  var NS = "http://www.w3.org/2000/svg";
+  function add(parent, tag, attrs) { var el = document.createElementNS(NS, tag); for (var k in attrs) el.setAttribute(k, attrs[k]); parent.appendChild(el); }
+  var bumps = document.getElementById("bumps"), sugar = document.getElementById("sugar");
+  if (bumps && sugar) {
+    for (var b = 0; b < 11; b++) {
+      var a = b / 11 * Math.PI * 2 + 0.2;
+      add(bumps, "circle", { cx: (200 + Math.cos(a) * 128).toFixed(1), cy: (195 + Math.sin(a) * 128).toFixed(1), r: 30 + (b % 3) * 4 });
+    }
+    var r = rng(42), made = 0;
+    while (made < 260) {
+      var ang = r() * Math.PI * 2, rad = Math.sqrt(r()) * 150;
+      var x = 200 + Math.cos(ang) * rad, y = 195 + Math.sin(ang) * rad * 0.95;
+      var topBias = (195 - y) / 150;
+      if (r() > 0.45 + topBias * 0.5) continue;
+      add(sugar, "circle", { cx: x.toFixed(1), cy: y.toFixed(1), r: (1 + r() * 2.4).toFixed(1), "fill-opacity": (0.7 + r() * 0.3).toFixed(2) });
+      made++;
+    }
+  }
+
+  /* Menu */
+  var menu = document.getElementById("menu");
+  ITEMS.forEach(function (item) {
+    var li = document.createElement("li");
+    li.className = "item";
+    li.innerHTML =
+      '<div class="info"><div class="name"></div><div class="desc"></div></div>' +
+      '<div class="buy"><span class="price"></span>' +
+      '<div class="stepper"><button type="button" data-d="-1"></button><span class="qty" id="q-' + item.id + '">0</span><button type="button" data-d="1"></button></div></div>';
+    li.querySelector(".name").textContent = item.name;
+    li.querySelector(".desc").textContent = item.desc;
+    li.querySelector(".price").textContent = eur(item.price);
+    var btns = li.querySelectorAll("button");
+    btns[0].textContent = "−"; btns[0].setAttribute("aria-label", "Remove one " + item.name);
+    btns[1].textContent = "+"; btns[1].setAttribute("aria-label", "Add one " + item.name);
+    btns.forEach(function (bt) {
+      bt.addEventListener("click", function () {
+        qty[item.id] = Math.max(0, Math.min(99, qty[item.id] + Number(bt.getAttribute("data-d"))));
+        render();
+      });
+    });
+    menu.appendChild(li);
+  });
+
+  function totals() {
+    var sub = 0, pieces = 0;
+    ITEMS.forEach(function (i) { sub += qty[i.id] * i.price; pieces += qty[i.id] * i.pieces; });
+    var fee = sub > 0 && sub < FREE_FROM ? DELIVERY_FEE : 0;
+    return { sub: sub, pieces: pieces, fee: fee, total: sub + fee };
+  }
+
+  var summary = document.getElementById("summary");
+  function render() {
+    ITEMS.forEach(function (i) { document.getElementById("q-" + i.id).textContent = qty[i.id]; });
+    var t = totals();
+    summary.textContent = "";
+    if (t.sub === 0) {
+      var p = document.createElement("p");
+      p.className = "empty";
+      p.textContent = "Nothing here yet. Add oliebollen from the menu.";
+      summary.appendChild(p);
+      return;
+    }
+    var ul = document.createElement("ul");
+    ul.className = "lines";
+    ITEMS.forEach(function (i) {
+      if (!qty[i.id]) return;
+      var li = document.createElement("li");
+      var l = document.createElement("span"), rr = document.createElement("span");
+      l.textContent = qty[i.id] + " × " + i.name;
+      rr.textContent = eur(qty[i.id] * i.price);
+      li.appendChild(l); li.appendChild(rr); ul.appendChild(li);
+    });
+    summary.appendChild(ul);
+    var dl = document.createElement("dl");
+    dl.className = "totals";
+    function row(k, v, cls) {
+      var dt = document.createElement("dt"), dd = document.createElement("dd");
+      dt.textContent = k; dd.textContent = v;
+      if (cls) { dt.className = cls; dd.className = cls; }
+      dl.appendChild(dt); dl.appendChild(dd);
+    }
+    row("Subtotal", eur(t.sub));
+    row("Delivery", t.fee === 0 ? "Free" : eur(t.fee));
+    row("Total", eur(t.total), "grand");
+    summary.appendChild(dl);
+    var n = document.createElement("p");
+    n.className = "note";
+    n.textContent = t.fee > 0 ? "Add " + eur(FREE_FROM - t.sub) + " more for free delivery." : "Free delivery applied.";
+    summary.appendChild(n);
+  }
+  render();
+
+  /* Delivery date: from tomorrow */
+  var dateEl = document.getElementById("date");
+  var d = new Date(); d.setDate(d.getDate() + 1);
+  var pad = function (n) { return (n < 10 ? "0" : "") + n; };
+  dateEl.min = d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+
+  /* Review order */
+  var form = document.getElementById("orderForm");
+  var msg = document.getElementById("formMsg");
+  var result = document.getElementById("result");
+  var resultText = document.getElementById("resultText");
+  var resultNote = document.getElementById("resultNote");
+  var copyStatus = document.getElementById("copyStatus");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    msg.hidden = true;
+    var t = totals();
+    if (t.sub === 0) { msg.textContent = "Add something from the menu first."; msg.hidden = false; return; }
+    var missing = form.querySelector(":invalid");
+    var fields = ["name", "phone", "address", "postcode", "city", "date", "slot"];
+    for (var k = 0; k < fields.length; k++) {
+      var el = document.getElementById(fields[k]);
+      if (!el.value.trim()) {
+        msg.textContent = "Fill in " + document.querySelector('label[for="' + fields[k] + '"]').textContent.toLowerCase() + " so we can deliver.";
+        msg.hidden = false; el.focus(); return;
+      }
+    }
+    var day = new Date(dateEl.value + "T12:00:00");
+    var dayText = isNaN(day) ? dateEl.value : day.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" });
+    var lines = ["Oliebol Delivery order request", ""];
+    ITEMS.forEach(function (i) { if (qty[i.id]) lines.push(qty[i.id] + " x " + i.name + "  " + eur(qty[i.id] * i.price)); });
+    lines.push("", "Subtotal  " + eur(t.sub), "Delivery  " + (t.fee === 0 ? "Free" : eur(t.fee)), "Total     " + eur(t.total), "");
+    lines.push("Name: " + document.getElementById("name").value.trim());
+    lines.push("Phone: " + document.getElementById("phone").value.trim());
+    lines.push("Address: " + document.getElementById("address").value.trim() + ", " + document.getElementById("postcode").value.trim() + " " + document.getElementById("city").value);
+    lines.push("Delivery: " + dayText + ", " + document.getElementById("slot").value);
+    var note = document.getElementById("notes").value.trim();
+    if (note) lines.push("Note: " + note);
+    resultText.value = lines.join("\n");
+    resultNote.textContent = SHOP_CONTACT
+      ? "This page does not send orders by itself. Copy the text below and send it to " + SHOP_CONTACT + " to confirm."
+      : "This page does not send orders by itself yet. Copy the text below and send it to the shop to confirm.";
+    copyStatus.textContent = "";
+    result.hidden = false;
+    result.scrollIntoView({ block: "nearest" });
+  });
+
+  document.getElementById("copyBtn").addEventListener("click", function () {
+    var done = function () { copyStatus.textContent = "Copied."; };
+    var fallback = function () { resultText.focus(); resultText.select(); copyStatus.textContent = "Select the text and copy it."; };
+    try {
+      navigator.clipboard.writeText(resultText.value).then(done, fallback);
+    } catch (err) { fallback(); }
+  });
+})();
+</script>
+</body>
+</html>
